@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Creating and Inserting DOM Elements</title>
-    <link rel="stylesheet" href="style.css">
-    
-    <script type="text/javascript" defer src="index.js"></script>
-  </head>
-  <body>
-    <h1 id="header">Flatbooks Technical Books</h1>
-    <ul id="book-list"></ul>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Alerts App</title>
+</head>
+<body>
+
+  <input 
+    id="state-input" 
+    type="text" 
+    placeholder="Enter state abbreviation"
+  />
+
+  <button id="fetch-button">
+    Get Weather Alerts
+  </button>
+
+  <div id="alerts-display"></div>
+
+  <div id="error-message" class="hidden"></div>
+
+  <script src="script.js"></script>
+</body>
 </html>

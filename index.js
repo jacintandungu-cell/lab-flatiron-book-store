@@ -1,39 +1,39 @@
-const books = [
-  {
-    title: "Eloquent JavaScript: A Modern Introduction to Programming",
-    author: "Marijn Haverbeke",
-    image: "https://images-na.ssl-images-amazon.com/images/I/91asIC1fRwL.jpg"
-  },
-  {
-    title: "HTML and CSS: Design and Build Websites",
-    author: "Jon Duckett",
-    image: "https://images-na.ssl-images-amazon.com/images/I/41jEbK-jG+L._SX258_BO1,204,203,200_.jpg"
-  },
-  {
-    title: "Cracking the Coding Interview",
-    author: "Gayle Laakmann McDowell",
-    image: "https://images-na.ssl-images-amazon.com/images/I/81bXtg+4k-L.jpg"
-  }
-];
+const input = document.querySelector('#state-input')
+const button = document.querySelector('#fetch-button')
+const display = document.querySelector('#alerts-display')
+const errorDiv = document.querySelector('#error-message')
 
-const bookList = document.getElementById("book-list");
+button.addEventListener('click', () => {
+  const state = input.value.trim()
 
-books.forEach(book => {
-  const li = document.createElement("li");
+  // Clear previous display
+  display.textContent = ''
 
-  const title = document.createElement("h2");
-  title.textContent = book.title;
+  fetch(`https://api.weather.gov/alerts/active?area=${state}`)
+    .then(response => response.json())
+    .then(data => {
+      // Hide error message on success
+      errorDiv.classList.add('hidden')
+      errorDiv.textContent = ''
 
-  const author = document.createElement("p");
-  author.textContent = book.author;
+      const alerts = data.features
 
-  const img = document.createElement("img");
-  img.src = book.image;              
-  img.alt = book.title;
+      // Display number of alerts
+      display.textContent = `Weather Alerts: ${alerts.length}`
 
-  li.appendChild(title);
-  li.appendChild(author);
-  li.appendChild(img);
+      // Display each alert
+      alerts.forEach(alert => {
+        const p = document.createElement('p')
+        p.textContent = alert.properties.headline
+        display.appendChild(p)
+      })
 
-  bookList.appendChild(li);
-});
+      // Clear input field
+      input.value = ''
+    })
+    .catch(error => {
+      // Show error message
+      errorDiv.classList.remove('hidden')
+      errorDiv.textContent = error.message
+    })
+})
